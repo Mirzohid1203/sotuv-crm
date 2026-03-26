@@ -140,7 +140,6 @@ export function KanbanBoard() {
       <DealModal 
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        customer={null}
         deal={editingDeal}
         onSave={async (data) => {
           if (editingDeal) {
