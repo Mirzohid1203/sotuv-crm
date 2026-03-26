@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sotuv CRM - Premium Sales Management System
 
-## Getting Started
+Sotuv CRM is a modern, responsive, and production-ready Customer Relationship Management application built with Next.js, Tailwind CSS, and Firebase. It is designed to be easily white-labeled and sold to small businesses, entrepreneurs, and sales offices.
 
-First, run the development server:
+## Features Included
+1. **Secure Authentication**: Utilizing Firebase Auth (Sign In, Sign Up).
+2. **Interactive Dashboard**: KPI metrics and interactive sales charts using `recharts`.
+3. **Customers Management**: Full CRUD on customers synced to Firestore.
+4. **Kanban Pipeline**: Drag-and-drop Deal Pipeline utilizing `@hello-pangea/dnd`.
+5. **Task Follow-ups**: Easy to add tasks linked to clients.
+6. **File Uploading**: Avatar/Document uploading configured with Firebase Storage.
+7. **Global State**: Managed effectively by `zustand`.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Quick Start Guide
+
+### 1. Prerequisites
+- Node.js 18+ installed.
+- A free account on [Firebase Console](https://console.firebase.google.com/).
+- [Vercel](https://vercel.com/) account for optional 1-click deployment.
+
+### 2. Firebase Configuration
+1. Go to Firebase Console and Create a New Project.
+2. Enable **Authentication** (Email/Password provider).
+3. Enable **Firestore Database** (start in Test Mode initially if you wish, or use the following rules):
+   ```
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /{document=**} {
+         allow read, write: if request.auth != null;
+       }
+     }
+   }
+   ```
+4. Enable **Firebase Storage**. Set the rules allowing auth requests:
+   ```
+   rules_version = '2';
+   service firebase.storage {
+     match /b/{bucket}/o {
+       match /{allPaths=**} {
+         allow read, write: if request.auth != null;
+       }
+     }
+   }
+   ```
+5. Go to Project Settings -> General -> Your Apps, add a Web App to reveal your configuration keys.
+
+### 3. Local Environment Setup
+Create a `.env.local` file in the root of the project with your Firebase config:
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 4. Running Locally
+Run the development server:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. The application will redirect to the `/login` route automatically protecting your CRM.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 5. Deployment
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new).
+When deploying, make sure to add all corresponding `NEXT_PUBLIC_FIREBASE_*` environment variables directly into your Vercel Project Settings.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+Built with ❤️ ready for White-Labeling and Resale.
