@@ -48,8 +48,8 @@ export default function TasksPage() {
   return (
     <div className="space-y-6 animate-in fade-in duration-500 max-w-4xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Tasks & Follow-ups</h1>
-        <p className="text-sm text-gray-500 mt-1">Manage your daily activities and customer follow-ups.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Vazifalar va Eslatmalar</h1>
+        <p className="text-sm text-gray-500 mt-1">Kundalik ishlaringiz va mijozlar bilan aloqalarni boshqaring.</p>
       </div>
 
       <Card className="border-none shadow-sm ring-1 ring-gray-200/50 mb-8">
@@ -57,11 +57,11 @@ export default function TasksPage() {
           <form onSubmit={handleAddTask} className="flex flex-col gap-4">
             <h3 className="font-semibold text-gray-900 flex items-center gap-2">
               <Plus className="w-4 h-4 text-indigo-500" />
-              Add New Task
+              Yangi Vazifa Qo'shish
             </h3>
             <div className="flex flex-col sm:flex-row gap-4">
               <Input 
-                placeholder="What needs to be done?" 
+                placeholder="Nima qilish kerak?" 
                 value={newTaskTitle}
                 onChange={(e) => setNewTaskTitle(e.target.value)}
                 className="flex-1"
@@ -72,7 +72,7 @@ export default function TasksPage() {
                 value={selectedCustomer}
                 onChange={(e) => setSelectedCustomer(e.target.value)}
               >
-                <option value="">No Customer Link</option>
+                <option value="">Mijozga bog'lanmagan</option>
                 {customers.map(c => (
                   <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
@@ -84,7 +84,7 @@ export default function TasksPage() {
                 className="md:w-auto"
                 required
               />
-              <Button type="submit" className="shrink-0 bg-indigo-600">Add Task</Button>
+              <Button type="submit" className="shrink-0 bg-indigo-600">Qo'shish</Button>
             </div>
           </form>
         </CardContent>
@@ -92,17 +92,17 @@ export default function TasksPage() {
 
       <div className="space-y-4">
         <h3 className="font-semibold text-gray-900 px-1 flex items-center justify-between">
-          <span>Your Tasks</span>
+          <span>Sizning Vazifalaringiz</span>
           <span className="text-sm font-medium text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">
-            {tasks.filter(t => !t.completed).length} pending
+            {tasks.filter(t => !t.completed).length} ta kutilmoqda
           </span>
         </h3>
         
         {tasks.length === 0 ? (
           <div className="p-8 text-center border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50">
             <Check className="w-12 h-12 text-gray-300 mb-3 mx-auto" />
-            <h3 className="text-lg font-medium text-gray-900">All caught up!</h3>
-            <p className="text-gray-500 mt-1">Add tasks above to keep track of your schedule.</p>
+            <h3 className="text-lg font-medium text-gray-900">Hamma ishlar bajarilgan!</h3>
+            <p className="text-gray-500 mt-1">Ro'yxatingizni kuzatib borish uchun yuqorida vazifalar qo'shing.</p>
           </div>
         ) : (
           sortedTasks.map(task => {
@@ -133,8 +133,8 @@ export default function TasksPage() {
                     <div className="flex items-center gap-4 mt-2 text-sm">
                       <div className={`flex items-center gap-1.5 ${isOverdue ? 'text-rose-600 font-medium' : 'text-gray-500'}`}>
                         {isOverdue ? <Clock className="w-4 h-4" /> : <Calendar className="w-4 h-4" />}
-                        {new Date(task.dueDate).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
-                        {isOverdue && " (Overdue)"}
+                        {new Date(task.dueDate).toLocaleDateString("uz-UZ", { weekday: 'short', month: 'short', day: 'numeric' })}
+                        {isOverdue && " (Muddati o'tgan)"}
                       </div>
                       
                       {customer && (
@@ -149,7 +149,7 @@ export default function TasksPage() {
                   <button 
                     onClick={() => deleteTask(task.id)}
                     className="opacity-0 group-hover:opacity-100 p-2 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
-                    title="Delete task"
+                    title="Vazifani o'chirish"
                   >
                     <Trash2 className="w-5 h-5" />
                   </button>
@@ -162,3 +162,4 @@ export default function TasksPage() {
     </div>
   );
 }
+
