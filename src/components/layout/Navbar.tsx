@@ -31,7 +31,12 @@ export default function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
 
   return (
     <header className="flex h-20 flex-shrink-0 items-center bg-white/70 backdrop-blur-md px-6 md:px-10 z-30 transition-all duration-300">
-      <Button variant="ghost" size="icon" className="md:hidden mr-4 hover:bg-indigo-50 hover:text-indigo-600 rounded-2xl">
+      <Button 
+        variant="ghost" 
+        size="icon" 
+        onClick={onMenuClick}
+        className="md:hidden mr-4 hover:bg-indigo-50 hover:text-indigo-600 rounded-2xl"
+      >
         <Menu className="h-6 w-6" />
       </Button>
 
