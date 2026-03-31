@@ -8,11 +8,19 @@ import { Input } from "@/components/ui/Input";
 import { CustomerModal } from "@/components/dashboard/CustomerModal";
 import { Plus, Search, Edit2, Trash2, UserPlus } from "lucide-react";
 
+import { useSearchParams } from "next/navigation";
+
 export default function CustomersPage() {
+  const searchParams = useSearchParams();
+  const querySearch = searchParams.get('q') || "";
   const { customers, fetchCustomers, addCustomer, updateCustomer, deleteCustomer, loading } = useCrmStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(querySearch);
+
+  useEffect(() => {
+    setSearchTerm(querySearch);
+  }, [querySearch]);
 
   useEffect(() => {
     fetchCustomers();

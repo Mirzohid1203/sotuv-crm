@@ -5,15 +5,27 @@ import { signOut } from "firebase/auth";
 import { useAuth } from "@/context/AuthContext";
 import { Bell, Menu, LogOut, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Navbar() {
   const { user } = useAuth();
+  const router = useRouter();
+  const [search, setSearch] = useState("");
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
     } catch (error) {
       console.error("Error signing out: ", error);
+    }
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (search.trim()) {
+      router.push(`/dashboard/customers?q=${encodeURIComponent(search)}`);
     }
   };
 
@@ -24,37 +36,47 @@ export default function Navbar() {
       </Button>
 
       <div className="flex flex-1 justify-between items-center">
-        <div className="flex w-full max-w-sm items-center relative group hidden sm:flex">
+        <form onSubmit={handleSearch} className="flex w-full max-w-sm items-center relative group hidden sm:flex">
           <Search className="absolute left-4 w-4 h-4 text-gray-400 group-focus-within:text-indigo-500 transition-colors" />
           <input
             type="text"
-            placeholder="Qidiruv..."
+            placeholder="Mijozlarni qidirish..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="w-full h-12 rounded-2xl bg-gray-50 border-none pl-12 pr-4 text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all duration-300 shadow-inner"
           />
-        </div>
+        </form>
 
         <div className="flex flex-1 sm:flex-none justify-end gap-6 items-center">
-          <Button variant="ghost" size="icon" className="relative group hover:bg-indigo-50 rounded-2xl h-11 w-11">
-            <span className="absolute top-3 right-3 flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-600 border-2 border-white"></span>
-            </span>
-            <Bell className="h-6 w-6 text-gray-500 group-hover:text-indigo-600 transition-colors" />
-          </Button>
+          <Link href="/dashboard/tasks">
+            <Button variant="ghost" size="icon" className="relative group hover:bg-indigo-50 rounded-2xl h-11 w-11">
+              <span className="absolute top-3 right-3 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-600 border-2 border-white"></span>
+              </span>
+              <Bell className="h-6 w-6 text-gray-500 group-hover:text-indigo-600 transition-all" />
+            </Button>
+          </Link>
 
           <div className="h-8 w-[1px] bg-gray-100 hidden md:block"></div>
 
-          <div className="flex items-center gap-4 group cursor-pointer">
-            <div className="hidden md:flex flex-col text-right">
-              <span className="text-sm font-black text-gray-900 leading-none">{user?.displayName || "Admin User"}</span>
-              <span className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-wider">{user?.email?.split('@')[0] || "admin"}</span>
-            </div>
-            
-            <div className="relative">
-              <div className="h-11 w-11 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 text-white font-black flex items-center justify-center shadow-lg shadow-indigo-100 group-hover:shadow-indigo-200 transition-all duration-300 group-hover:-translate-y-0.5">
-                {user?.displayName ? user.displayName.charAt(0) : <User className="w-5 h-5" />}
+          <div className="flex items-center gap-4">
+            <Link href="/dashboard/settings" className="flex items-center gap-4 group cursor-pointer">
+              <div className="hidden md:flex flex-col text-right">
+                <span className="text-sm font-black text-gray-900 leading-none group-hover:text-indigo-600 transition-colors">{user?.displayName || "Admin User"}</span>
+                <span className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-wider">{user?.email?.split('@')[0] || "admin"}</span>
               </div>
-            </div>
+              
+              <div className="relative">
+                <div className="h-11 w-11 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 text-white font-black flex items-center justify-center shadow-lg shadow-indigo-100 group-hover:shadow-indigo-300 transition-all duration-300 group-hover:-translate-y-0.5">
+                  {user?.photoURL ? (
+                    <img src={user.photoURL} alt="User" className="h-full w-full rounded-2xl object-cover" />
+                  ) : (
+                    user?.displayName ? user.displayName.charAt(0) : <User className="w-5 h-5" />
+                  )}
+                </div>
+              </div>
+            </Link>
 
             <Button 
               variant="ghost" 
@@ -71,4 +93,3 @@ export default function Navbar() {
     </header>
   );
 }
-

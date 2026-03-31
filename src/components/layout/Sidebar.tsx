@@ -1,79 +1,59 @@
 "use client";
 
-import { auth } from "@/lib/firebase";
-import { signOut } from "firebase/auth";
-import { useAuth } from "@/context/AuthContext";
-import { Bell, Menu, LogOut, Search, User } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { LayoutDashboard, Users, Columns, CheckSquare, Settings, Briefcase, ChevronRight } from "lucide-react";
 
-export default function Navbar() {
-  const { user } = useAuth();
-  const router = useRouter();
-  const [search, setSearch] = useState("");
- 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Error signing out: ", error);
-    }
-  };
+const navigation = [
+  { name: "Asosiy", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Mijozlar", href: "/dashboard/customers", icon: Users },
+  { name: "Sotuv (Kanban)", href: "/dashboard/pipeline", icon: Columns },
+  { name: "Vazifalar", href: "/dashboard/tasks", icon: CheckSquare },
+  { name: "Sozlamalar", href: "/dashboard/settings", icon: Settings },
+];
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (search.trim()) {
-      router.push(`/dashboard/customers?q=${encodeURIComponent(search)}`);
-    }
-  };
+export default function Sidebar({ className }: { className?: string }) {
+  const pathname = usePathname();
 
   return (
-    <header className="flex h-20 flex-shrink-0 items-center bg-white/70 backdrop-blur-md px-6 md:px-10 z-30 transition-all duration-300">
-      <Button variant="ghost" size="icon" className="md:hidden mr-4 hover:bg-indigo-50 hover:text-indigo-600 rounded-2xl">
-        <Menu className="h-6 w-6" />
-      </Button>
-
-      <div className="flex flex-1 justify-between items-center">
-        <form onSubmit={handleSearch} className="flex w-full max-w-sm items-center relative group hidden sm:flex">
-          <Search className="absolute left-4 w-4 h-4 text-gray-400 group-focus-within:text-indigo-500 transition-colors" />
-          <input
-            type="text"
-            placeholder="Mijozlarni qidirish..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-12 rounded-2xl bg-gray-50 border-none pl-12 pr-4 text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all duration-300 shadow-inner"
-          />
-        </form>
-
-        <div className="flex flex-1 sm:flex-none justify-end gap-6 items-center">
-          <Link href="/dashboard/tasks">
-            <Button variant="ghost" size="icon" className="relative group hover:bg-indigo-50 rounded-2xl h-11 w-11">
-              <span className="absolute top-3 right-3 flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-600 border-2 border-white"></span>
-              </span>
-              <Bell className="h-6 w-6 text-gray-500 group-hover:text-indigo-600 transition-colors" />
-            </Button>
-          </Link>
-
-          <div className="h-8 w-[1px] bg-gray-100 hidden md:block"></div>
-
-          <div className="flex items-center gap-4">
-            <Link href="/dashboard/settings" className="flex items-center gap-4 group cursor-pointer">
-              <div className="hidden md:flex flex-col text-right">
-                <span className="text-sm font-black text-gray-900 leading-none group-hover:text-indigo-600 transition-colors">{user?.displayName || "Admin User"}</span>
-                <span className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-wider">{user?.email?.split('@')[0] || "admin"}</span>
-              </div>
-              
-              <div className="relative">
-                <div className="h-11 w-11 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 text-white font-black flex items-center justify-center shadow-lg shadow-indigo-100 group-hover:shadow-indigo-300 transition-all duration-300 group-hover:-translate-y-0.5">
-                  {user?.photoURL ? (
-                    <img src={user.photoURL} alt="User" className="h-full w-full rounded-2xl object-cover" />
-                  ) : (
-                    user?.displayName ? user.displayName.charAt(0) : <User className="w-5 h-5" />
+    <div className={cn("w-72 flex-col border-r border-gray-100 bg-white/80 backdrop-blur-xl shadow-2xl shadow-indigo-100/20 shrink-0 z-20", className)}>
+      <div className="flex h-24 items-center flex-shrink-0 px-8 gap-4">
+        <div className="bg-gradient-to-tr from-indigo-600 to-violet-600 p-2.5 rounded-2xl shadow-lg shadow-indigo-200">
+          <Briefcase className="h-6 w-6 text-white" />
+        </div>
+        <div className="flex flex-col">
+          <span className="text-xl font-black text-gray-900 tracking-tighter uppercase italic">Sotuv <span className="text-indigo-600">CRM</span></span>
+          <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase">Premium Edition</span>
+        </div>
+      </div>
+      
+      <div className="flex-1 overflow-y-auto px-4 py-8 space-y-2">
+        <div className="px-4 mb-4">
+          <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Asosiy Menyu</p>
+        </div>
+        {navigation.map((item) => {
+          const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "group flex items-center justify-between px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300",
+                isActive
+                  ? "bg-indigo-600 text-white shadow-xl shadow-indigo-200 translate-x-1"
+                  : "text-gray-500 hover:bg-indigo-50 hover:text-indigo-600"
+              )}
+            >
+              <div className="flex items-center">
+                <item.icon
+                  className={cn(
+                    "mr-3 flex-shrink-0 h-5 w-5 transition-colors",
+                    isActive ? "text-white" : "text-gray-400 group-hover:text-indigo-500"
                   )}
+                  aria-hidden="true"
+                />
+                {item.name}
               </div>
               {isActive && (
                 <ChevronRight className="w-4 h-4 text-white/70" />
@@ -101,4 +81,3 @@ export default function Navbar() {
     </div>
   );
 }
-
