@@ -39,7 +39,13 @@ export default function RegisterPage() {
       
       router.push("/dashboard");
     } catch (err: any) {
-      setError(err.message || "Failed to create account");
+       let uzError = err.message;
+       if (err.code === "auth/email-already-in-use") {
+         uzError = "Ushbu email bilan allaqachon ro'yxatdan o'tilgan";
+       } else if (err.code === "auth/weak-password") {
+         uzError = "Parol juda zaif (kamida 6 ta belgi bo'lishi kerak)";
+       }
+      setError(uzError || "Ro'yxatdan o'tishda xatolik yuz berdi");
     } finally {
       setIsLoading(false);
     }
@@ -52,30 +58,30 @@ export default function RegisterPage() {
           <div className="mx-auto bg-indigo-100 p-3 rounded-xl w-fit">
             <Briefcase className="h-8 w-8 text-indigo-600" />
           </div>
-          <CardTitle className="text-2xl font-bold tracking-tight">Create an account</CardTitle>
-          <CardDescription>Start managing your sales pipeline today</CardDescription>
+          <CardTitle className="text-2xl font-bold tracking-tight">Ro'yxatdan o'tish</CardTitle>
+          <CardDescription>Sotuvlaringizni bugundan boshqarishni boshlang</CardDescription>
         </CardHeader>
         <form onSubmit={handleRegister}>
           <CardContent className="space-y-4">
             {error && <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md border border-red-200">{error}</div>}
             <Input
-              label="Full Name"
+              label="To'liq Ism"
               type="text"
-              placeholder="John Doe"
+              placeholder="Falonchi Pistonchiyev"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
             <Input
-              label="Email Address"
+              label="Email Manzili"
               type="email"
-              placeholder="name@company.com"
+              placeholder="ism@kompaniya.uz"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
             <Input
-              label="Password"
+              label="Parol"
               type="password"
               placeholder="••••••••"
               value={password}
@@ -86,12 +92,12 @@ export default function RegisterPage() {
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-full h-11 text-base font-semibold" disabled={isLoading}>
-              {isLoading ? "Creating account..." : "Sign up"}
+              {isLoading ? "Ro'yxatdan o'tilmoqda..." : "Ro'yxatdan o'tish"}
             </Button>
             <div className="text-sm text-center text-gray-500">
-              Already have an account?{" "}
+              Profilingiz bormi?{" "}
               <Link href="/login" className="text-indigo-600 hover:text-indigo-500 font-medium">
-                Sign in
+                Kirish
               </Link>
             </div>
           </CardFooter>
@@ -100,3 +106,4 @@ export default function RegisterPage() {
     </div>
   );
 }
+

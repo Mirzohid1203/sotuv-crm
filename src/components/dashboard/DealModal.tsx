@@ -62,7 +62,7 @@ export function DealModal({ isOpen, onClose, onSave, deal }: DealModalProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200">
         <div className="flex justify-between items-center p-6 border-b border-gray-100">
-          <h2 className="text-xl font-semibold text-gray-900">{deal ? "Edit Deal" : "Add New Deal"}</h2>
+          <h2 className="text-xl font-semibold text-gray-900">{deal ? "Shartnomani Tahrirlash" : "Yangi Shartnoma Qo'shish"}</h2>
           <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-full">
             <X className="w-5 h-5" />
           </button>
@@ -70,13 +70,13 @@ export function DealModal({ isOpen, onClose, onSave, deal }: DealModalProps) {
         
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <Input 
-            label="Deal Title" 
+            label="Shartnoma Nomi" 
             required 
             value={formData.title} 
             onChange={e => setFormData({...formData, title: e.target.value})} 
           />
           <Input 
-            label="Estimated Value ($)" 
+            label="Taxminiy Qiymati ($)" 
             type="number" 
             required 
             value={formData.value} 
@@ -84,13 +84,13 @@ export function DealModal({ isOpen, onClose, onSave, deal }: DealModalProps) {
           />
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Link Customer (Optional)</label>
+            <label className="mb-1.5 block text-sm font-medium text-gray-700">Mijozga Bog'lash (Ixtiyoriy)</label>
             <select 
               className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               value={formData.customerId}
               onChange={e => setFormData({...formData, customerId: e.target.value})}
             >
-              <option value="">-- Select Customer --</option>
+              <option value="">-- Mijozni tanlang --</option>
               {customers.map(c => (
                 <option key={c.id} value={c.id}>{c.name}</option>
               ))}
@@ -98,23 +98,23 @@ export function DealModal({ isOpen, onClose, onSave, deal }: DealModalProps) {
           </div>
           
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Stage</label>
+            <label className="mb-1.5 block text-sm font-medium text-gray-700">Bosqich</label>
             <select 
               className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               value={formData.stage}
               onChange={e => setFormData({...formData, stage: e.target.value as Deal["stage"]})}
             >
-              <option value="Lead">Lead</option>
-              <option value="Contacted">Contacted</option>
-              <option value="Proposal">Proposal</option>
-              <option value="Negotiation">Negotiation</option>
-              <option value="Closed Won">Closed Won</option>
-              <option value="Closed Lost">Closed Lost</option>
+              <option value="Lead">Lid</option>
+              <option value="Contacted">Muloqotda</option>
+              <option value="Proposal">Taklif Yuborilgan</option>
+              <option value="Negotiation">Muzokara</option>
+              <option value="Closed Won">Yutilgan</option>
+              <option value="Closed Lost">Yutqazilgan</option>
             </select>
           </div>
 
           <Input 
-            label="Expected Close Date" 
+            label="Kutilayotgan Yopilish Sanasi" 
             type="date"
             required 
             value={formData.dueDate} 
@@ -122,11 +122,12 @@ export function DealModal({ isOpen, onClose, onSave, deal }: DealModalProps) {
           />
 
           <div className="pt-4 flex justify-end gap-3">
-            <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
-            <Button type="submit">{deal ? "Save Changes" : "Add Deal"}</Button>
+            <Button type="button" variant="ghost" onClick={onClose}>Bekor Qilish</Button>
+            <Button type="submit">{deal ? "Saqlash" : "Qo'shish"}</Button>
           </div>
         </form>
       </div>
     </div>
   );
 }
+

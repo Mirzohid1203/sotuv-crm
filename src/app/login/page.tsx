@@ -26,7 +26,7 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
     } catch (err: any) {
-      setError(err.message || "Failed to log in");
+      setError(err.message === "Firebase: Error (auth/invalid-credential)." ? "Email yoki parol noto'g'ri" : err.message || "Tizimga kirishda xatolik yuz berdi");
     } finally {
       setIsLoading(false);
     }
@@ -39,22 +39,22 @@ export default function LoginPage() {
           <div className="mx-auto bg-indigo-100 p-3 rounded-xl w-fit">
             <Briefcase className="h-8 w-8 text-indigo-600" />
           </div>
-          <CardTitle className="text-2xl font-bold tracking-tight">Welcome back</CardTitle>
-          <CardDescription>Enter your credentials to access your CRM</CardDescription>
+          <CardTitle className="text-2xl font-bold tracking-tight">Xush kelibsiz</CardTitle>
+          <CardDescription>CRM tizimiga kirish uchun ma'lumotlaringizni kiriting</CardDescription>
         </CardHeader>
         <form onSubmit={handleLogin}>
           <CardContent className="space-y-4">
             {error && <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md border border-red-200">{error}</div>}
             <Input
-              label="Email Address"
+              label="Email Manzili"
               type="email"
-              placeholder="name@company.com"
+              placeholder="ism@kompaniya.uz"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
             <Input
-              label="Password"
+              label="Parol"
               type="password"
               placeholder="••••••••"
               value={password}
@@ -64,12 +64,12 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-full h-11 text-base font-semibold" disabled={isLoading}>
-              {isLoading ? "Signing in..." : "Sign in"}
+              {isLoading ? "Kirilmoqda..." : "Kirish"}
             </Button>
             <div className="text-sm text-center text-gray-500">
-              Don't have an account?{" "}
+              Hisobingiz yo'qmi?{" "}
               <Link href="/register" className="text-indigo-600 hover:text-indigo-500 font-medium">
-                Sign up
+                Ro'yxatdan o'tish
               </Link>
             </div>
           </CardFooter>
@@ -78,3 +78,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

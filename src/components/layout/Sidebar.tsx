@@ -6,12 +6,13 @@ import { cn } from "@/lib/utils";
 import { LayoutDashboard, Users, Columns, CheckSquare, Settings, Briefcase, ChevronRight } from "lucide-react";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Asosiy", href: "/dashboard", icon: LayoutDashboard },
   { name: "Mijozlar", href: "/dashboard/customers", icon: Users },
-  { name: "Pipeline", href: "/dashboard/pipeline", icon: Columns },
+  { name: "Sotuv (Kanban)", href: "/dashboard/pipeline", icon: Columns },
   { name: "Vazifalar", href: "/dashboard/tasks", icon: CheckSquare },
   { name: "Sozlamalar", href: "/dashboard/settings", icon: Settings },
 ];
+
 
 export default function Sidebar({ className }: { className?: string }) {
   const pathname = usePathname();
