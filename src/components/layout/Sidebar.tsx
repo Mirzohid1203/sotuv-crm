@@ -69,9 +69,14 @@ export default function Sidebar({ className }: { className?: string }) {
           <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
           <p className="text-xs font-bold text-indigo-300 relative z-10">Yordam kerakmi?</p>
           <p className="text-[10px] text-white/60 mt-1 relative z-10 font-medium">Qo'llab-quvvatlash jamoasi bilan bog'laning</p>
-          <button className="mt-4 w-full py-2 bg-indigo-500 hover:bg-indigo-400 text-white text-[10px] font-black rounded-xl transition-colors relative z-10 uppercase tracking-wider">
+          <a 
+            href="https://t.me/Mahmudaaliyev" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="mt-4 w-full py-2 bg-indigo-500 hover:bg-indigo-400 text-white text-[10px] font-black rounded-xl transition-colors relative z-10 uppercase tracking-wider block text-center"
+          >
             Yordam Markazi
-          </button>
+          </a>
         </div>
       </div>
     </div>
