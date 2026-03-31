@@ -35,8 +35,14 @@ export default function Sidebar({ className, isOpen, onClose }: SidebarProps) {
       </div>
       
       <div className="flex-1 overflow-y-auto px-4 py-8 space-y-2">
-        <div className="px-4 mb-4">
+        <div className="px-4 mb-4 flex justify-between items-center">
           <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Asosiy Menyu</p>
+          <button 
+            onClick={onClose} 
+            className="md:hidden p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <ChevronRight className="w-4 h-4 rotate-180" />
+          </button>
         </div>
         {navigation.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -44,6 +50,7 @@ export default function Sidebar({ className, isOpen, onClose }: SidebarProps) {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onClose}
               className={cn(
                 "group flex items-center justify-between px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300",
                 isActive
