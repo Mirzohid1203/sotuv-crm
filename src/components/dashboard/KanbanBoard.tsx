@@ -64,29 +64,31 @@ export function KanbanBoard() {
 
   return (
     <>
-      <div className="mb-6 flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">Sotuv Voronkasi (Pipeline)</h1>
           <p className="text-sm text-gray-500 mt-1">Shartnomalarni bosqichma-bosqich o'tkazish uchun ularni suring.</p>
         </div>
         <button 
           onClick={() => handleOpenModal()} 
-          className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition"
+          className="inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 w-full sm:w-auto"
         >
           <Plus className="w-4 h-4" /> Shartnoma Qo'shish
         </button>
       </div>
 
-      <div className="flex gap-6 overflow-x-auto pb-4 h-[calc(100vh-200px)]">
+      <div className="flex flex-col md:flex-row gap-6 md:overflow-x-auto pb-6 -mx-4 px-4 md:mx-0 md:px-0 h-auto md:h-[calc(100vh-250px)]">
         <DragDropContext onDragEnd={onDragEnd}>
           {STAGES.map(stage => {
             const stageDeals = boardDeals.filter(d => d.stage === stage);
             
             return (
-              <div key={stage} className="flex-shrink-0 w-80 flex flex-col bg-gray-100/50 rounded-xl">
-                <div className="p-4 border-b border-gray-200/50 flex justify-between items-center sticky top-0 bg-gray-100/50 backdrop-blur-sm z-10 rounded-t-xl">
-                  <h3 className="font-semibold text-gray-700">{STAGE_LABELS[stage]}</h3>
-                  <span className="text-xs font-medium bg-gray-200 text-gray-600 px-2 py-1 rounded-full">{stageDeals.length}</span>
+              <div key={stage} className="flex-shrink-0 w-full md:w-80 flex flex-col bg-gray-100/50 rounded-2xl mb-4 md:mb-0">
+                <div className="p-4 border-b border-gray-200/50 flex justify-between items-center sticky top-0 bg-gray-100/50 backdrop-blur-sm z-10 rounded-t-2xl">
+                  <h3 className="font-bold text-gray-700 text-sm uppercase tracking-wider">{STAGE_LABELS[stage]}</h3>
+                  <span className="text-xs font-bold bg-white text-indigo-600 px-2.5 py-1 rounded-lg shadow-sm ring-1 ring-gray-200/50">
+                    {stageDeals.length}
+                  </span>
                 </div>
                 
                 <Droppable droppableId={stage}>
@@ -95,47 +97,53 @@ export function KanbanBoard() {
                       ref={provided.innerRef} 
                       {...provided.droppableProps}
                       className={cn(
-                        "flex-1 p-3 space-y-3 overflow-y-auto min-h-[150px] transition-colors rounded-b-xl",
+                        "flex-1 p-3 space-y-3 md:overflow-y-auto min-h-[100px] transition-colors rounded-b-2xl",
                         snapshot.isDraggingOver ? "bg-indigo-50/50" : ""
                       )}
                     >
-                      {stageDeals.map((deal, index) => (
-                        <Draggable key={deal.id} draggableId={deal.id} index={index}>
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              className={cn(
-                                "bg-white p-4 rounded-lg shadow-sm border border-gray-200 group transition hover:border-indigo-300",
-                                snapshot.isDragging ? "shadow-lg ring-2 ring-indigo-500 rotate-2 opacity-90 is-dragging" : ""
-                              )}
-                              onClick={() => handleOpenModal(deal)}
-                            >
-                              <div className="flex justify-between items-start mb-2">
-                                <h4 className="font-medium text-gray-900 text-sm">{deal.title}</h4>
-                                <div {...provided.dragHandleProps} className="text-gray-400 cursor-grab hover:text-gray-600 active:cursor-grabbing p-1 -m-1">
-                                  <GripVertical className="h-4 w-4" />
+                      {stageDeals.length === 0 ? (
+                        <div className="py-8 text-center border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50">
+                           <p className="text-[10px] uppercase font-bold text-gray-400">Hozircha yo'q</p>
+                        </div>
+                      ) : (
+                        stageDeals.map((deal, index) => (
+                          <Draggable key={deal.id} draggableId={deal.id} index={index}>
+                            {(provided, snapshot) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                className={cn(
+                                  "bg-white p-4 rounded-xl shadow-sm border border-gray-200 group transition-all hover:border-indigo-300 hover:shadow-md active:scale-95",
+                                  snapshot.isDragging ? "shadow-2xl ring-2 ring-indigo-500 rotate-2 opacity-90 z-50" : ""
+                                )}
+                                onClick={() => handleOpenModal(deal)}
+                              >
+                                <div className="flex justify-between items-start mb-2">
+                                  <h4 className="font-bold text-gray-900 text-sm leading-tight">{deal.title}</h4>
+                                  <div {...provided.dragHandleProps} className="text-gray-400 cursor-grab hover:text-gray-600 active:cursor-grabbing p-1 -m-1">
+                                    <GripVertical className="h-4 w-4" />
+                                  </div>
+                                </div>
+                                
+                                {deal.customerName && (
+                                  <p className="text-[11px] font-medium text-gray-500 mb-4">{deal.customerName}</p>
+                                )}
+                                
+                                <div className="flex justify-between items-center text-[11px] mt-2 pt-3 border-t border-gray-50">
+                                  <span className="flex items-center text-emerald-600 font-bold bg-emerald-50 px-2 py-1 rounded-lg">
+                                    <DollarSign className="w-3 h-3 mr-0.5" />
+                                    {deal.value.toLocaleString()}
+                                  </span>
+                                  <span className="flex items-center text-gray-400 font-bold">
+                                    <Calendar className="w-3 h-3 mr-1" />
+                                    {new Date(deal.dueDate).toLocaleDateString("uz-UZ", { month: 'short', day: 'numeric' })}
+                                  </span>
                                 </div>
                               </div>
-                              
-                              {deal.customerName && (
-                                <p className="text-xs text-gray-500 mb-3">{deal.customerName}</p>
-                              )}
-                              
-                              <div className="flex justify-between items-center text-xs mt-3 pt-3 border-t border-gray-100">
-                                <span className="flex items-center text-emerald-600 font-semibold">
-                                  <DollarSign className="w-3 h-3 mr-0.5" />
-                                  {deal.value.toLocaleString()}
-                                </span>
-                                <span className="flex items-center text-gray-400 font-medium">
-                                  <Calendar className="w-3 h-3 mr-1" />
-                                  {new Date(deal.dueDate).toLocaleDateString("uz-UZ", { month: 'short', day: 'numeric' })}
-                                </span>
-                              </div>
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
+                            )}
+                          </Draggable>
+                        ))
+                      )}
                       {provided.placeholder}
                     </div>
                   )}
