@@ -32,7 +32,7 @@ export default function CustomersPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm("Are you sure you want to delete this customer?")) {
+    if (window.confirm("Haqiqatdan ham ushbu mijozni o'chirib tashlamoqchimisiz?")) {
       await deleteCustomer(id);
     }
   };
@@ -47,11 +47,11 @@ export default function CustomersPage() {
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Customers</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage your clients, leads, and contacts.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Mijozlar</h1>
+          <p className="text-sm text-gray-500 mt-1">Mijozlaringiz, lidlaringiz va kontaktlaringizni boshqaring.</p>
         </div>
         <Button onClick={() => handleOpenModal()} className="gap-2 shrink-0">
-          <Plus className="w-4 h-4" /> Add Customer
+          <Plus className="w-4 h-4" /> Mijoz Qo'shish
         </Button>
       </div>
 
@@ -60,14 +60,14 @@ export default function CustomersPage() {
           <div className="relative w-full sm:w-72">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input 
-              placeholder="Search customers..." 
+              placeholder="Mijozlarni qidirish..." 
               className="pl-9 h-9 border-gray-200 ring-0 focus:ring-0 shadow-sm"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <div className="text-sm text-gray-500 w-full sm:w-auto text-right">
-            Showing {filteredCustomers.length} clients
+            {filteredCustomers.length} ta mijoz ko'rsatilmoqda
           </div>
         </div>
 
@@ -75,24 +75,24 @@ export default function CustomersPage() {
           <table className="w-full text-sm text-left">
             <thead className="bg-gray-50 text-gray-600 font-medium border-b border-gray-200">
               <tr>
-                <th className="px-6 py-4">Name</th>
-                <th className="px-6 py-4">Contact Info</th>
-                <th className="px-6 py-4">Company</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th className="px-6 py-4">Ism</th>
+                <th className="px-6 py-4">Kontakt</th>
+                <th className="px-6 py-4">Kompaniya</th>
+                <th className="px-6 py-4">Holat</th>
+                <th className="px-6 py-4 text-right">Amallar</th>
               </tr>
             </thead>
             <tbody>
               {loading && customers.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-gray-500">Loading customers...</td>
+                  <td colSpan={5} className="px-6 py-8 text-center text-gray-500">Mijozlar yuklanmoqda...</td>
                 </tr>
               ) : filteredCustomers.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center justify-center text-gray-500 space-y-3">
                       <div className="p-3 bg-gray-100 rounded-full"><UserPlus className="w-6 h-6 text-gray-400" /></div>
-                      <p>No customers found.</p>
+                      <p>Mijozlar topilmadi.</p>
                     </div>
                   </td>
                 </tr>
@@ -114,7 +114,9 @@ export default function CustomersPage() {
                         customer.status === "Former" ? "bg-gray-100 text-gray-800" :
                         "bg-rose-100 text-rose-800"
                       }`}>
-                        {customer.status}
+                        {customer.status === "Active" ? "Faol" : 
+                         customer.status === "Lead" ? "Lid" : 
+                         customer.status === "Former" ? "Sobiq" : "Arxivlangan"}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
@@ -144,3 +146,4 @@ export default function CustomersPage() {
     </div>
   );
 }
+

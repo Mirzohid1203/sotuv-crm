@@ -8,35 +8,44 @@ interface StatCardProps {
   trend?: string;
   trendPositive?: boolean;
   className?: string;
+  gradient?: string;
 }
 
-export function StatCard({ title, value, icon, trend, trendPositive, className }: StatCardProps) {
+export function StatCard({ title, value, icon, trend, trendPositive, className, gradient }: StatCardProps) {
   return (
-    <Card className={cn("overflow-hidden border-none shadow-md ring-1 ring-gray-200/50", className)}>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between space-x-4">
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-500 truncate">{title}</p>
-            <div className="flex items-baseline mt-1 space-x-2">
-              <h2 className="text-3xl font-bold text-gray-900 tracking-tight">{value}</h2>
-              {trend && (
-                <span
-                  className={cn(
-                    "text-sm font-semibold rounded-full px-2 py-0.5",
-                    trendPositive
-                      ? "text-emerald-700 bg-emerald-50"
-                      : "text-rose-700 bg-rose-50"
-                  )}
-                >
-                  {trendPositive ? "+" : ""}
-                  {trend}
-                </span>
-              )}
-            </div>
+    <Card className={cn("relative overflow-hidden border-none shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group", className)}>
+      {/* Background Decor */}
+      <div className={cn("absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-10 transition-transform duration-500 group-hover:scale-110", gradient || "bg-indigo-500")}></div>
+      <CardContent className="p-6 relative z-10">
+        <div className="flex items-center justify-between">
+          <div className={cn("p-3 rounded-2xl shadow-inner transition-colors duration-300", 
+            gradient ? "bg-white/20 text-white" : "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-100")}>
+            {icon}
           </div>
-          <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl">{icon}</div>
+          {trend && (
+            <span
+              className={cn(
+                "text-xs font-bold rounded-full px-2.5 py-1 backdrop-blur-md",
+                trendPositive
+                  ? "text-emerald-700 bg-emerald-500/10 border border-emerald-500/20"
+                  : "text-rose-700 bg-rose-500/10 border border-rose-500/20"
+              )}
+            >
+              {trendPositive ? "↑" : "↓"} {trend}
+            </span>
+          )}
+        </div>
+        
+        <div className="mt-5">
+          <p className={cn("text-xs font-bold uppercase tracking-wider", gradient ? "text-white/70" : "text-gray-500")}>
+            {title}
+          </p>
+          <h2 className={cn("text-3xl font-black mt-1", gradient ? "text-white" : "text-gray-900")}>
+            {value}
+          </h2>
         </div>
       </CardContent>
     </Card>
   );
 }
+
