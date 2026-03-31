@@ -39,7 +39,7 @@ export default function SettingsPage() {
         photoURL: photoURL
       });
 
-      setSuccessMsg("Profile updated successfully!");
+      setSuccessMsg("Profil muvaffaqiyatli yangilandi!");
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
@@ -51,14 +51,14 @@ export default function SettingsPage() {
   return (
     <div className="max-w-3xl mx-auto animate-in fade-in duration-500 space-y-6">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Settings</h1>
-        <p className="text-sm text-gray-500 mt-1">Manage your account preferences and profile.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Sozlamalar</h1>
+        <p className="text-sm text-gray-500 mt-1">Hisobingiz va profilingizni boshqaring.</p>
       </div>
 
       <Card className="border-none shadow-sm ring-1 ring-gray-200/50">
         <CardHeader>
-          <CardTitle>Profile Information</CardTitle>
-          <CardDescription>Update your photo and personal details.</CardDescription>
+          <CardTitle>Profil Ma'lumotlari</CardTitle>
+          <CardDescription>Suratingiz va shaxsiy ma'lumotlaringizni yangilang.</CardDescription>
         </CardHeader>
         <CardContent>
           {successMsg && (
@@ -95,25 +95,25 @@ export default function SettingsPage() {
                     }}
                   />
                 </div>
-                <p className="text-xs text-center text-gray-500 mt-2">Click to upload</p>
+                <p className="text-xs text-center text-gray-500 mt-2">Yuklash uchun bosing</p>
               </div>
               
               <div className="flex-1 space-y-4 w-full">
                 <Input 
-                  label="Display Name" 
+                  label="Ko'rinadigan Ism" 
                   value={displayName}
                   onChange={e => setDisplayName(e.target.value)}
                 />
                 
                 <Input 
-                  label="Email Address (Cannot be changed)" 
+                  label="Email Manzili (O'zgartirib bo'lmaydi)" 
                   value={user?.email || ""}
                   disabled
                   className="bg-gray-50 text-gray-500"
                 />
 
                 <Button type="submit" disabled={isUploading} className="mt-4">
-                  {isUploading ? "Saving changes..." : "Save Profile"}
+                  {isUploading ? "Saqlanmoqda..." : "Profilni Saqlash"}
                 </Button>
               </div>
             </div>
@@ -123,15 +123,16 @@ export default function SettingsPage() {
       
       <Card className="border-none shadow-sm ring-1 ring-red-200/50 bg-red-50/20">
         <CardHeader>
-          <CardTitle className="text-red-700">Danger Zone</CardTitle>
-          <CardDescription>Irreversible actions related to your account.</CardDescription>
+          <CardTitle className="text-red-700">Xavfli Hudud</CardTitle>
+          <CardDescription>Hisobingiz bilan bog'liq qaytarib bo'lmaydigan amallar.</CardDescription>
         </CardHeader>
         <CardContent>
           <Button variant="danger">
-            Delete Account
+            Hisobni O'chirish
           </Button>
         </CardContent>
       </Card>
     </div>
   );
 }
+
