@@ -13,7 +13,13 @@ const navigation = [
   { name: "Sozlamalar", href: "/dashboard/settings", icon: Settings },
 ];
 
-export default function Sidebar({ className }: { className?: string }) {
+interface SidebarProps {
+  className?: string;
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function Sidebar({ className, isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
 
   return (
